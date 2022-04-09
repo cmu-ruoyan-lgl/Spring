@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdu.mapper.ArticleMapper">
+    <resultMap id="ArticleMap" type="Article">
+        <id column="articleId" property="articleId"/>
+        <result property="imagePath" column="imagePath"/>
+        <result property="content" column="content"/>
+        <result property="userName" column="userName"/>
+        <result property="articleCreateTime" column="articleCreateTime"/>
+        <result property="articleModifyTime" column="articleModifyTime"/>
+    </resultMap>
+
+    <resultMap id="UserArticleMap" type="UserArticle">
+        <id column="userId" property="userId"/>
+        <result property="articleId" column="articleId"/>
+        <result property="userArticleCreateTime" column="userArticleCreateTime"/>
+        <result property="userArticleModifyTime" column="userArticleModifyTime"/>
+    </resultMap>
+
+
+    <select id="queryAllArticle" resultMap="ArticleMap">
+    select * from article
+    </select>
+
+    <insert id="addRecord" parameterType="UserArticle">
+        insert into springdd.userarticle (userId,articleId ,userArticleCreateTime ,userArticleModifyTime )
+    values (#{userId},#{articleId},#{userArticleCreateTime},#{userArticleModifyTime}) ON DUPLICATE KEY UPDATE
+    userArticleModifyTime = values (userArticleModifyTime)
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdu.mapper.UserMapper">
+    <resultMap id="UserMap" type="User">
+        <id column="userId" property="userId"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <result property="userPhone" column="userPhone"/>
+        <result property="userEmail" column="userEmail"/>
+        <result property="userAvatar" column="userAvatar"/>
+        <result property="userRealName" column="userRealName"/>
+        <result property="userGender" column="userGender"/>
+        <result property="userAddress" column="userAddress"/>
+        <result property="userQQId" column="userQQId"/>
+        <result property="userWeChatId" column="userWeChatId"/>
+        <result property="userCreateTime" column="userCreateTime"/>
+        <result property="userModifyTime" column="userModifyTime"/>
+        <association property="userState" javaType="UserState">
+            <id column="userId" property="userId"/>
+            <result column="userState" property="userState"/>
+            <result property="userStateCreateTime" column="userStateCreateTime"/>
+            <result property="userStateModifyTime" column="userStateModifyTime"/>
+        </association>
+    </resultMap>
+
+    <select id="queryUserById" resultMap="UserMap">
+    select * from user u,userstate us
+    where u.userId = #{userId} and u.userId = us.userId
+
+</select>
+    <select id="queryUserByUserName" resultMap="UserMap">
+    select * from user u where u.userName = #{userName}
+    </select>
+
+    <select id="queryUserByUserNameAndUserPassword" resultMap="UserMap">
+    select * from user u,userstate us WHERE u.userName = #{userName} and u.userPassword = #{userPassword} and u.userId = us.userId
+    </select>
+
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyColumn="userId" keyProperty="userId">
+    INSERT INTO user (userName ,userPassword ,userPhone ,userEmail ,userAvatar ,userRealName ,
+    userGender ,userAddress,userQQId,userWeChatId ,userCreateTime,userModifyTime)
+    values (#{userName},#{userPassword},#{userPhone},#{userEmail},#{userAvatar},#{userRealName},
+    #{userGender},#{userAddress},#{userQQId},#{userWeChatId},#{userCreateTime},#{userModifyTime})
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+    update springdd.user set userName=#{userName},userAddress=#{userAddress},userEmail=#{userEmail},userPhone=#{userPhone},userGender=#{userGender} where userId = #{userId}
+</update>
+
+    <update id="updateUserPwd" parameterType="User">
+    update springdd.user set userPassword=#{userPassword} where userId = #{userId}
+</update>
+
+    <update id="updateUserAvatar" parameterType="User">
+    update user set userAvatar = #{userAvatar}  where userId = #{userId}
+</update>
+
+    <delete id="deleteUser" parameterType="int">
+    delete from user where userId = #{userId}
+</delete>
+
+
+</mapper>

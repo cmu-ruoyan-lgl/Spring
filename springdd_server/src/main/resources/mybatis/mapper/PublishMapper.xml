@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdu.mapper.PublishMapper">
+    <resultMap id="ArticleMap" type="Article">
+        <id column="articleId" property="articleId"/>
+        <result property="imagePath" column="imagePath"/>
+        <result property="content" column="content"/>
+        <result property="userName" column="userName"/>
+        <result property="articleCreateTime" column="articleCreateTime"/>
+        <result property="articleModifyTime" column="articleModifyTime"/>
+    </resultMap>
+
+
+    <insert id="addArticle" parameterType="Article" keyColumn="articleId" keyProperty="articleId">
+    INSERT INTO Article (imagePath ,content ,userName,articleCreateTime,articleModifyTime)
+    values (#{imagePath},#{content},#{userName},#{articleCreateTime},#{articleModifyTime})
+    </insert>
+
+</mapper>
